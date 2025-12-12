@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 850px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"group": "User", "id": "U0", "label": "Danielle", "shape": "dot", "size": 10}, {"group": "Item", "id": "I0", "label": "Discover", "shape": "dot", "size": 10}, {"group": "User", "id": "U1", "label": "Angel", "shape": "dot", "size": 10}, {"group": "Item", "id": "I1", "label": "Early", "shape": "dot", "size": 10}, {"group": "Item", "id": "I5", "label": "Option", "shape": "dot", "size": 10}, {"group": "User", "id": "U2", "label": "Joshua", "shape": "dot", "size": 10}, {"group": "Item", "id": "I3", "label": "Play", "shape": "dot", "size": 10}, {"group": "Item", "id": "I8", "label": "Rate", "shape": "dot", "size": 10}, {"group": "User", "id": "U3", "label": "Jeffrey", "shape": "dot", "size": 10}, {"group": "User", "id": "U4", "label": "Jill", "shape": "dot", "size": 10}, {"group": "User", "id": "U5", "label": "Erica", "shape": "dot", "size": 10}, {"group": "Item", "id": "I7", "label": "Sense", "shape": "dot", "size": 10}, {"group": "User", "id": "U6", "label": "Patricia", "shape": "dot", "size": 10}, {"group": "Item", "id": "I2", "label": "Mouth", "shape": "dot", "size": 10}, {"group": "Item", "id": "I6", "label": "Decide", "shape": "dot", "size": 10}, {"group": "User", "id": "U7", "label": "Christopher", "shape": "dot", "size": 10}, {"group": "User", "id": "U8", "label": "Robert", "shape": "dot", "size": 10}, {"group": "Item", "id": "I4", "label": "Agreement", "shape": "dot", "size": 10}, {"group": "User", "id": "U9", "label": "Anthony", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A1", "label": "Abigail Shaffer", "shape": "dot", "size": 10}, {"group": "Director", "id": "D0", "label": "Margaret Hawkins DDS", "shape": "dot", "size": 10}, {"group": "Genre", "id": "G_Documentary", "label": "Documentary", "shape": "dot", "size": 10}, {"group": "Genre", "id": "G_Drama", "label": "Drama", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A3", "label": "Gabrielle Davis", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A14", "label": "Carla Gray", "shape": "dot", "size": 10}, {"group": "Director", "id": "D2", "label": "Ethan Adams", "shape": "dot", "size": 10}, {"group": "Director", "id": "D1", "label": "Patty Perez", "shape": "dot", "size": 10}, {"group": "Genre", "id": "G_Sci-Fi", "label": "Sci-Fi", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A12", "label": "Derek Zuniga", "shape": "dot", "size": 10}, {"group": "Director", "id": "D3", "label": "Tommy Walter", "shape": "dot", "size": 10}, {"group": "Genre", "id": "G_Comedy", "label": "Comedy", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A2", "label": "Gina Moore", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A13", "label": "Lisa Jackson", "shape": "dot", "size": 10}, {"group": "Director", "id": "D4", "label": "Matthew Foster", "shape": "dot", "size": 10}, {"group": "Genre", "id": "G_Action", "label": "Action", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A11", "label": "Holly Wood", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A4", "label": "Ryan Munoz", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A10", "label": "Brian Ramirez", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A5", "label": "Monica Herrera", "shape": "dot", "size": 10}, {"group": "Genre", "id": "G_Romance", "label": "Romance", "shape": "dot", "size": 10}, {"group": "Item", "id": "I9", "label": "Science", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A0", "label": "Connie Lawrence", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A6", "label": "Jamie Arnold", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A7", "label": "Lisa Hensley", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A8", "label": "Michele Williams", "shape": "dot", "size": 10}, {"group": "Actor", "id": "A9", "label": "Dylan Miller", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "U0", "label": "VIEWED", "to": "I0", "width": 1}, {"arrows": "to", "from": "U1", "label": "VIEWED", "to": "I1", "width": 1}, {"arrows": "to", "from": "U1", "label": "VIEWED", "to": "I5", "width": 1}, {"arrows": "to", "from": "U2", "label": "VIEWED", "to": "I1", "width": 1}, {"arrows": "to", "from": "U2", "label": "VIEWED", "to": "I3", "width": 1}, {"arrows": "to", "from": "U2", "label": "VIEWED", "to": "I8", "width": 1}, {"arrows": "to", "from": "U3", "label": "VIEWED", "to": "I3", "width": 1}, {"arrows": "to", "from": "U4", "label": "VIEWED", "to": "I3", "width": 1}, {"arrows": "to", "from": "U5", "label": "VIEWED", "to": "I3", "width": 1}, {"arrows": "to", "from": "U5", "label": "VIEWED", "to": "I7", "width": 1}, {"arrows": "to", "from": "U5", "label": "VIEWED", "to": "I8", "width": 1}, {"arrows": "to", "from": "U6", "label": "VIEWED", "to": "I5", "width": 1}, {"arrows": "to", "from": "U6", "label": "VIEWED", "to": "I1", "width": 1}, {"arrows": "to", "from": "U6", "label": "VIEWED", "to": "I2", "width": 1}, {"arrows": "to", "from": "U6", "label": "VIEWED", "to": "I6", "width": 1}, {"arrows": "to", "from": "U7", "label": "VIEWED", "to": "I1", "width": 1}, {"arrows": "to", "from": "U8", "label": "VIEWED", "to": "I1", "width": 1}, {"arrows": "to", "from": "U8", "label": "VIEWED", "to": "I4", "width": 1}, {"arrows": "to", "from": "U9", "label": "VIEWED", "to": "I2", "width": 1}, {"arrows": "to", "from": "U9", "label": "VIEWED", "to": "I8", "width": 1}, {"arrows": "to", "from": "I0", "label": "FEATURES", "to": "A1", "width": 1}, {"arrows": "to", "from": "I0", "label": "DIRECTED_BY", "to": "D0", "width": 1}, {"arrows": "to", "from": "I0", "label": "IN_GENRE", "to": "G_Documentary", "width": 1}, {"arrows": "to", "from": "I0", "label": "IN_GENRE", "to": "G_Drama", "width": 1}, {"arrows": "to", "from": "I1", "label": "FEATURES", "to": "A3", "width": 1}, {"arrows": "to", "from": "I1", "label": "FEATURES", "to": "A14", "width": 1}, {"arrows": "to", "from": "I1", "label": "DIRECTED_BY", "to": "D2", "width": 1}, {"arrows": "to", "from": "I1", "label": "IN_GENRE", "to": "G_Drama", "width": 1}, {"arrows": "to", "from": "I2", "label": "FEATURES", "to": "A1", "width": 1}, {"arrows": "to", "from": "I2", "label": "DIRECTED_BY", "to": "D1", "width": 1}, {"arrows": "to", "from": "I2", "label": "IN_GENRE", "to": "G_Documentary", "width": 1}, {"arrows": "to", "from": "I2", "label": "IN_GENRE", "to": "G_Sci-Fi", "width": 1}, {"arrows": "to", "from": "I3", "label": "FEATURES", "to": "A12", "width": 1}, {"arrows": "to", "from": "I3", "label": "DIRECTED_BY", "to": "D3", "width": 1}, {"arrows": "to", "from": "I3", "label": "IN_GENRE", "to": "G_Comedy", "width": 1}, {"arrows": "to", "from": "I4", "label": "FEATURES", "to": "A2", "width": 1}, {"arrows": "to", "from": "I4", "label": "DIRECTED_BY", "to": "D1", "width": 1}, {"arrows": "to", "from": "I4", "label": "IN_GENRE", "to": "G_Comedy", "width": 1}, {"arrows": "to", "from": "I5", "label": "FEATURES", "to": "A2", "width": 1}, {"arrows": "to", "from": "I5", "label": "FEATURES", "to": "A13", "width": 1}, {"arrows": "to", "from": "I5", "label": "FEATURES", "to": "A3", "width": 1}, {"arrows": "to", "from": "I5", "label": "DIRECTED_BY", "to": "D4", "width": 1}, {"arrows": "to", "from": "I5", "label": "IN_GENRE", "to": "G_Comedy", "width": 1}, {"arrows": "to", "from": "I5", "label": "IN_GENRE", "to": "G_Action", "width": 1}, {"arrows": "to", "from": "I6", "label": "FEATURES", "to": "A11", "width": 1}, {"arrows": "to", "from": "I6", "label": "FEATURES", "to": "A4", "width": 1}, {"arrows": "to", "from": "I6", "label": "FEATURES", "to": "A10", "width": 1}, {"arrows": "to", "from": "I6", "label": "DIRECTED_BY", "to": "D1", "width": 1}, {"arrows": "to", "from": "I6", "label": "IN_GENRE", "to": "G_Sci-Fi", "width": 1}, {"arrows": "to", "from": "I7", "label": "FEATURES", "to": "A14", "width": 1}, {"arrows": "to", "from": "I7", "label": "FEATURES", "to": "A1", "width": 1}, {"arrows": "to", "from": "I7", "label": "DIRECTED_BY", "to": "D3", "width": 1}, {"arrows": "to", "from": "I7", "label": "IN_GENRE", "to": "G_Comedy", "width": 1}, {"arrows": "to", "from": "I7", "label": "IN_GENRE", "to": "G_Drama", "width": 1}, {"arrows": "to", "from": "I8", "label": "FEATURES", "to": "A5", "width": 1}, {"arrows": "to", "from": "I8", "label": "DIRECTED_BY", "to": "D0", "width": 1}, {"arrows": "to", "from": "I8", "label": "IN_GENRE", "to": "G_Romance", "width": 1}, {"arrows": "to", "from": "I8", "label": "IN_GENRE", "to": "G_Drama", "width": 1}, {"arrows": "to", "from": "I9", "label": "FEATURES", "to": "A3", "width": 1}, {"arrows": "to", "from": "I9", "label": "FEATURES", "to": "A0", "width": 1}, {"arrows": "to", "from": "I9", "label": "FEATURES", "to": "A10", "width": 1}, {"arrows": "to", "from": "I9", "label": "DIRECTED_BY", "to": "D2", "width": 1}, {"arrows": "to", "from": "I9", "label": "IN_GENRE", "to": "G_Documentary", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
