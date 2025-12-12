@@ -21,7 +21,45 @@ O sistema produz:
 
 1. **Um arquivo `.cypher` completo**, pronto para importação no Neo4j.  
 2. **Uma visualização interativa PyVis (`.html`)**.  
-3. **Uma imagem PNG do grafo** gerada via NetworkX + Matplotlib.
+3. **Uma imagem PNG do grafo** gerada via NetworkX + Matplotlib.  
+
+Executado inteiramente no **Google Colab**, sem dependências externas difíceis (sem Selenium, sem ChromeDriver).
+
+---
+
+# 🎯 Objetivo
+
+Criar um dataset relacional multi-grafo com diversos tipos de nós e relacionamentos, adequado para:
+
+- estudos de grafos  
+- sistemas de recomendação  
+- bancos de grafos (Neo4j, Memgraph)  
+- análises estruturais  
+- demonstrações de arquitetura grafo-centrada  
+
+---
+
+# 🧩 Arquitetura Geral
+
+```text
+┌─────────────────────────────────────────┐
+│ Gerador de Dados (Faker)                │
+│ → Users, Items, Actors, Directors       │
+└───────────────────────────┬─────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────┐
+│ Relacionamentos Sintéticos              │
+│ → VIEWED, FEATURES, DIRECTED_BY, IN_GENRE│
+└───────────────────────────┬─────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────┐
+│ Exportação                              │
+│ - Cypher (.cypher)                      │
+│ - Vis (HTML interativo)                 │
+│ - PNG (NetworkX + Matplotlib)           │
+└─────────────────────────────────────────┘
 
 # 🧬 Estrutura dos Dados
 
@@ -123,42 +161,3 @@ Ano: 2025
 ---
 
 *Arquivo gerado automaticamente a partir do notebook do Colab que produz `multi_graph_with_genres.cypher` e `multi_graph_with_genres.html`.*
-
-Executado inteiramente no **Google Colab**, sem dependências externas difíceis (sem Selenium, sem ChromeDriver).
-
----
-
-# 🎯 Objetivo
-
-Criar um dataset relacional multi-grafo com diversos tipos de nós e relacionamentos, adequado para:
-
-- estudos de grafos  
-- sistemas de recomendação  
-- bancos de grafos (Neo4j, Memgraph)  
-- análises estruturais  
-- demonstrações de arquitetura grafo-centrada  
-
----
-
-# 🧩 Arquitetura Geral
-
-```text
-┌─────────────────────────────────────────┐
-│ Gerador de Dados (Faker)                │
-│ → Users, Items, Actors, Directors       │
-└───────────────────────────┬─────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────┐
-│ Relacionamentos Sintéticos              │
-│ → VIEWED, FEATURES, DIRECTED_BY, IN_GENRE│
-└───────────────────────────┬─────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────┐
-│ Exportação                              │
-│ - Cypher (.cypher)                      │
-│ - Vis (HTML interativo)                 │
-│ - PNG (NetworkX + Matplotlib)           │
-└─────────────────────────────────────────┘
-
