@@ -41,7 +41,7 @@ Criar um dataset relacional multi-grafo com diversos tipos de nós e relacioname
 
 # 🧩 Arquitetura Geral
 
-```text
+
 ┌─────────────────────────────────────────┐
 │ Gerador de Dados (Faker)                │
 │ → Users, Items, Actors, Directors       │
